@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+  	<title>jQuery PageSlide Demo</title>
+  	<!--  The jquery.pageslide.css stylesheet has the class that you'll need on your page -->
+  	<link rel="stylesheet" type="text/css" href="css/jqslide/jquery.pageslide.css" />
+  	<style>
+  	
+  	    body { 
+        	background: #f4f4f4;
+        	font: 14px/18px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        	color: #666; 
+        	-webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
+        	-webkit-text-size-adjust: none;
+        }
+
+        a, a:visited { color: #C30; text-decoration: none; border-bottom: 1px dotted #C30; }
+        a:hover { color: #900; border-bottom-style: solid; }
+
+        p { margin-bottom: 20px; }
+
+        #content {
+            width: auto;
+            padding: 10px;
+            margin: 0 auto;
+        }
+            #content h1 { color: #333; line-height: 1em; }
+            #content ul { padding-left: 0; list-style: none; }
+                #content ul li { margin-bottom: 20px; }
+
+        #modal { display: none; }
+            #modal a { background: #CCC; color: #333; font-weight: bold; padding: 5px 10px; border: none; }
+            #modal a:hover { background: #aaa; } 
+
+        pre { border: 1px solid #CCC; background-color: #EEE; color: #333; padding: 10px 20px; }
+        
+    </style>
+    
+        <script src="src/lib/zepto.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="src/jqtouch.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/iscroll.js" type="text/javascript"></script>
+		
+	    <script src="js/jquery-1.8.1.min.js"></script>
+	    <script src="js/jqslide/jquery.pageslide.min.js"></script>
+	    <script>
+	        /* Default pageslide, moves to the right */
+	        $(".first").pageslide();
+	        
+	        /* Slide to the left, and make it model (you'll have to call $.pageslide.close() to close) */
+	        $(".second").pageslide({ direction: "left", modal: true });
+	    </script>
+		<script>
+	        var jQT=$.jQTouch
+	        ({
+	            statusBar		: 'black',
+	            addGlossToIcon	: false
+	        });
+        </script>
+        
+		<script type="text/javascript">
+			var sign_up_page_wrapper;
+			
+			function loaded() 
+			{
+				//about_page_wrapper=new iScroll('about_page_wrapper');
+
+				about_page_wrapper = new iScroll('sign_up_page_wrapper', 
+				{
+					useTransform: false,
+					onBeforeScrollStart: function (e) {
+						var target = e.target;
+						while (target.nodeType != 1) target = target.parentNode;
+			
+						if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+							e.preventDefault();
+					}
+				});
+			}
+			
+			document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+			document.addEventListener('DOMContentLoaded', loaded, false);
+			
+		</script>
+    
+       	<style type="text/css" media="screen">@import "themes/css/vadnilla.css";</style>
+		<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+	<div id="jqt">
+		<div id="home" selected="true" class="edgetoedge form">
+			<div class="header toolbar">
+				<h1>Performance Education</h1>
+				<a class="button swap" id="infoButton" href="#sign_up_page">Sign Up</a>
+			</div>
+			
+			<div class="wrapper" id="home_page_wrapper">
+				<div class="scroller">
+					<div id="content">
+				        <h1>PageSlide Basic Demo</h1>
+				        <p>Below are a couple examples of how the plugin works:</p>
+				        <ul>
+				            <li><a href="_secondary.html" class="first">Slide to the right, and load content from a secondary page.</a></li>
+				            <li><a href="#modal" class="second">Slide to the left, and display hidden content from this page in a modal pane.</a></li>
+				            <li><a href="javascript:$.pageslide({ direction: 'left', href: '_secondary.html' })">Open the page programatically.</a></li>
+				        </ul>
+				        <div id="modal">
+				            <h2>Modal</h2>
+				            <p>This slide uses "modal" option set to "true". When using a modal pageslide, clicking on the main window will not close the window. You must explicitly call <code>$.pageslide.close()</code>.</p>
+				            <p><a href="javascript:$.pageslide.close()">Close</a></p>
+				        </div>
+				    </div>
+					<ul id="thelist">
+						<li><a href="#about">Chart</a></li>
+						<li>Pretty row 10</li>
+						<li>Pretty row 11</li>
+						<li>Pretty row 12</li>
+						<li>Pretty row 13</li>
+						<li>Pretty row 14</li>
+						<li>Pretty row 15</li>
+						<li>Pretty row 16</li>
+						<li>Pretty row 17</li>
+						<li>Pretty row 18</li>
+						<li>Pretty row 19</li>
+						<li>Pretty row 20</li>
+						<li>Pretty row 21</li>
+						<li>Pretty row 22</li>
+						<li>Pretty row 23</li>
+						<li>Pretty row 24</li>
+						<li>Pretty row 25</li>
+						<li>Pretty row 26</li>
+						<li>Pretty row 27</li>
+						<li>Pretty row 28</li>
+						<li>Pretty row 29</li>
+						<li>Pretty row 30</li>
+						<li>Pretty row 31</li>
+						<li>Pretty row 32</li>
+						<li>Pretty row 33</li>
+						<li>Pretty row 34</li>
+						<li>Pretty row 35</li>
+						<li>Pretty row 36</li>
+						<li>Pretty row 37</li>
+						<li>Pretty row 38</li>
+						<li>Pretty row 39</li>
+						<li>Pretty row 40</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+    
+</body>
+</html>
