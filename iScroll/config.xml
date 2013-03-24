@@ -53,7 +53,7 @@
         <plugin name="SplashScreen" value="CDVSplashScreen" />
         <plugin name="Battery" value="CDVBattery" />
         <plugin name="Globalization" value="CDVGlobalization" />
-        <plugin name="InAppBrowser" value="CDVInAppBrowser" />
+		<plugin name="InAppBrowser" value="CDVInAppBrowser" />
     </plugins>
 
     <access origin="*" />

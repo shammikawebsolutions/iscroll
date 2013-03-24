@@ -11,7 +11,7 @@
         <script src="src/jqtouch.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/iscroll.js" type="text/javascript"></script>
     	<script src="cordova-2.2.0.js" type="text/javascript" charset="utf-8"></script>
-
+        
 		<script>
 	        var jQT=$.jQTouch
 	        ({
@@ -19,6 +19,16 @@
 	            addGlossToIcon	: false
 	        });
         </script>
+        
+        <script src="js/jquery-1.8.1.min.js" type="text/javascript" charset="utf-8"></script>       
+        <script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js" charset="utf-8"></script>
+        
+        <script src="js/spinningwheel-min.js?v=1.4" type="text/javascript"></script>
+        <script src="js/farbtastic.js" type="text/javascript" charset="utf-8"></script>
+        <script src="ChildBrowser.js" type="text/javascript" charset="utf-8"></script>
+        
+		<!-- <script type='text/javascript' src='js/fullcalendar/fullcalendar.js' charset="utf-8"></script>
+        <script src="js/date.js" type="text/javascript" charset="utf-8"></script> -->
         
 		<script type="text/javascript">
 			var home_page_wrapper,about_page_wrapper,sign_up_page_wrapper;
@@ -67,6 +77,18 @@
 			document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
 			document.addEventListener('DOMContentLoaded', loaded, false);
 			
+			// Wait for Cordova to load
+		    //
+		    document.addEventListener("deviceready", onDeviceReady, false);
+
+		    // Cordova is ready
+		    //
+		    function onDeviceReady() {
+		         var ref = window.open('http://apache.org', '_blank', 'location=yes');
+		         ref.addEventListener('loadstart', function() { alert('start: ' + event.url); });
+		         ref.addEventListener('loadstop', function() { alert('stop: ' + event.url); });
+		         ref.addEventListener('exit', function() { alert(event.type); });
+		    }
 		</script>
 		
 		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -107,25 +129,84 @@
      	 }
 	      
 	      
+	      
 	     $(document).ready(function()
    		{
-	    	 $.ajax
-     		({
-     			url		: 'json/ads.json',
-     			cache	: false,
-     	    	success	: function(data)
-     	    	{
-     	    		$.each(data,function(i,item)
-     	    		{
-     	        		//alert(item.type+"-"+item.url);
-     	    		});
-     	    	}
-     		});
+        	
+	    	 function create_date_spinner(component_id)
+		      {
+		      	$(component_id).focus(function()
+		      	{
+		      		var now=new Date();
+		      		var days={ };
+		      		var years={ };
+		      		var months={ 1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun', 7: 'Jul', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec' };
+		      		
+		      		for( var i=1; i < 32; i += 1 ) {
+		      			days[i]=i;
+		      		}
+
+		      		for( i=now.getFullYear(); i < now.getFullYear()+10; i += 1 ) {
+		      			years[i]=i;
+		      		}
+
+		      		SpinningWheel.addSlot(years, 'right', now.getFullYear());
+		      		SpinningWheel.addSlot(months, '', (now.getMonth()+1));
+		      		SpinningWheel.addSlot(days, 'right', now.getDate());
+		      		
+		      		SpinningWheel.setCancelAction(function()
+		      		{
+		          		//alert(SpinningWheel.getSelectedValues().values);
+		      		});
+		      		
+		      		SpinningWheel.setDoneAction(function()
+		      		{
+		      			//var date=SpinningWheel.getSelectedValues().values.toString().split(",");
+		      			//date=date[0]+"-"+get_numerical_month(date[1])+"-"+date[2];
+		      			//$(component_id).val(date);    
+		      			alert(SpinningWheel.getSelectedValues().values);
+		      		});
+		      		
+		      		SpinningWheel.open();
+		      	});
+		      }
+	    	 
+	    	 create_date_spinner("#date_some_name");
+	    		
+	    	 
+	    	 $('#subject_color_picker_div').farbtastic('#subject_color_picker_textbox');
+	    		
+	    		$("#subject_color_picker_textbox").click(function()
+	    		{
+	    			$("#subject_color_picker_dialog").dialog("open");
+	    		});
+	    		
+	    		$("#subject_color_picker_dialog").dialog
+	    		({
+	    			resizable	: 	false,
+	    			autoOpen	: 	false,
+	    	        height		:	340,
+	    	        width		:	230,
+	    	        modal		: 	true,
+	    	        buttons		: 
+	    			{
+	    	            "Ok": function() 
+	    	            {
+	    					$("#subject_color_picker_dialog").dialog("close");
+	    	            }
+	    	        }
+	    		});
+	    		
+	    		
    		});
     </script>
     
        	<style type="text/css" media="screen">@import "themes/css/vanilla.css";</style>
 		<link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />       
+		
+ 		<link rel="stylesheet" type="text/css" href="css/farbtastic.css" />
+		<link type="text/css" rel="stylesheet" media="screen" href="css/spinningwheel.css"  />
 	</head>
 	
 	<body>
@@ -133,7 +214,7 @@
 			<div id="home" selected="true" class="edgetoedge form">
 				<div class="header toolbar">
 					<h1>Performance Education</h1>
-					<a class="button" id="infoButton" href="#sign_up_page">Sign Up</a>
+					<a class="button flip" id="infoButton" href="#sign_up_page">Sign Up</a>
 				</div>
 				
 				<div class="wrapper" id="home_page_wrapper">
@@ -141,52 +222,31 @@
 						<ul id="thelist">
 							<li><a href="#about">Chart</a></li>
 							<li><a href="#sign_up_page">Form</a></li>
-							<li>Pretty row 11</li>
-							<li>Pretty row 12</li>
+							<li><a href="#" id="open_win">WIN</a></li>
 							<li>Pretty row 13</li>
 							<li>Pretty row 14</li>
 							<li>Pretty row 15</li>
-							<li>Pretty row 16</li>
-							<li>Pretty row 17</li>
-							<li>Pretty row 18</li>
-							<li>Pretty row 19</li>
-							<li>Pretty row 20</li>
-							<li>Pretty row 21</li>
-							<li>Pretty row 22</li>
-							<li>Pretty row 23</li>
-							<li>Pretty row 24</li>
-							<li>Pretty row 25</li>
-							<li>Pretty row 26</li>
-							<li>Pretty row 27</li>
-							<li>Pretty row 28</li>
-							<li>Pretty row 29</li>
-							<li>Pretty row 30</li>
-							<li>Pretty row 31</li>
-							<li>Pretty row 32</li>
-							<li>Pretty row 33</li>
-							<li>Pretty row 34</li>
-							<li>Pretty row 35</li>
-							<li>Pretty row 36</li>
-							<li>Pretty row 37</li>
-							<li>Pretty row 38</li>
-							<li>Pretty row 39</li>
-							<li>Pretty row 40</li>
 						</ul>
 					</div>
 				</div>
 			</div>
 				
+			<div id="subject_color_picker_dialog" title="Pick Colour">
+				<div id="subject_color_picker_div"></div>	
+			</div>	
+				
 			<div id="sign_up_page">
 				<div class="header toolbar">
 					<h1>About</h1>
-					<a class="button back" id="infoButton" href="#">Back</a>
+					<a class="button back" id="infoButton" href="#">Go Back</a>
 				</div>
 				
 				<div class="wrapper" id="sign_up_page_wrapper">
 					<div class="scroller">
 						<form class="scroll">
 		                    <ul class="edit rounded">
-		                        <li><input type="text" name="name" placeholder="Text" id="some_name" /></li>
+		                        <li><input type="text" readonly name="name" placeholder="Text" id="date_some_name" /></li>
+		                        <li><input type="text" readonly id="subject_color_picker_textbox" name="color" value="Select Colour" /></li>
 		                        <li><input type="search" name="search" placeholder="Search" id="some_name" /></li>
 		                        <li><input type="tel" name="phone" placeholder="Phone" id="some_name"  /></li>
 		                        <li><input type="number" name="zip" placeholder="Numbers" id="some_name" /></li>                    
